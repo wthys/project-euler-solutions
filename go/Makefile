@@ -9,8 +9,8 @@ GOFILES:=$(shell find . -type f -name "*.go")
 build: $(PROG)
 
 $(PROG): go.mod $(GOFILES)
-	go get
-	go build -o $(PROG)
+	docker build --target bin --output $(BIN_DIR)/ .
+	@touch $(PROG)
 
 run: $(PROG)
 	@$(PROG) run $(ARGS)
@@ -19,5 +19,5 @@ run-all: $(PROG)
 	@for problem in `$(PROG) list`; do $(PROG) run $$problem; done
 
 clean:
-	rm go.sum
+	rm -f go.sum
 	rm -rf $(BIN_DIR)
